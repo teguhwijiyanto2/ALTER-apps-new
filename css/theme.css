@@ -1,0 +1,194 @@
+:root {
+  --primary-color: #6338db;
+  --primary-color--50: #6338db50;
+  --primary-color--hover: #5a32c9;
+  --primary-color--active: #5530bb;
+  --secondary-color: #0f9d58;
+  --text-color: #d4c5fd;
+  --text-secondary-color: #9e9e9e;
+  --white-color: #ededed;
+  --white-color--50: #ededed50;
+  --black-color: #0a0a0a;
+  --green-color: #51e44b;
+}
+
+a {
+  text-decoration: none;
+  color: var(--white-color);
+}
+
+input {
+  outline: none;
+  color: #0a0a0a;
+}
+
+a:hover {
+  color: #fff;
+}
+
+.btn {
+  padding: 12px;
+}
+
+.btn:focus {
+  outline: none !important;
+}
+
+.bg-primary {
+  background-color: var(--primary-color) !important;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-color--hover);
+  border-color: var(--primary-color--hover);
+}
+
+.btn-primary:active {
+  background-color: var(--primary-color--active) !important;
+  border-color: var(--primary-color--active) !important;
+}
+
+.btn-outline-primary {
+  border-color: var(--primary-color);
+}
+
+.btn-check:checked + .btn-outline-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+  border-color: var(--primary-color--hover) !important;
+}
+
+.btn-outline-primary:active {
+  background-color: var(--primary-color--active) !important;
+  border-color: var(--primary-color--active) !important;
+}
+
+.btn-outline-light:hover {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: var(--white-color);
+}
+
+.border-success {
+  border-color: var(--green-color) !important;
+}
+
+.carousel-indicators [data-bs-target] {
+  background-color: var(--white-color);
+  width: 10px;
+  height: 10px;
+  border-radius: 10px;
+  border: none;
+  opacity: 1;
+}
+
+.carousel-indicators .active {
+  background-color: var(--primary-color);
+  border-radius: 10px;
+  width: 40px;
+  height: 10px;
+}
+
+.text-primary {
+  color: var(--text-color) !important;
+}
+
+.text-secondary {
+  color: var(--text-secondary-color) !important;
+}
+
+.page-link.active {
+  background-color: var(--white-color--50) !important;
+  border-color: var(--white-color--50) !important;
+}
+
+input[type="radio"] {
+  width: auto;
+  position: absolute;
+  cursor: pointer;
+  right: 0;
+  visibility: hidden;
+  margin-top: -1px;
+}
+
+input[type="radio"]:before {
+  content: " ";
+  display: block;
+  background-color: transparent;
+  border: 2px solid #ddd;
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+  border-radius: 100px;
+  visibility: initial;
+}
+/* style for the dot inside the radio field */
+input[type="radio"]:after {
+  content: " ";
+  display: block;
+  width: 17px;
+  height: 17px;
+  border-radius: 100px;
+  position: absolute;
+  top: 3px;
+  left: 4px;
+  visibility: initial;
+  background-color: transparent;
+  transition: background-color 0.2s ease-in-out;
+}
+/*style for hover state */
+input[type="radio"]:hover:after {
+  background-color: transparent;
+}
+/* style for checked state */
+input[type="radio"]:checked:after {
+  background-color: var(--primary-color);
+}
+input[type="radio"]:checked:before {
+  border: 2px solid var(--primary-color);
+}
+
+.dropdown-item:active {
+  background-color: var(--primary-color);
+}
+
+.form-check-input:checked {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+}
+
+.fs-7 {
+  font-size: 0.9rem !important;
+}
+
+.fs-8 {
+  font-size: 0.8rem !important;
+}
+.fs-9 {
+  font-size: 0.7rem !important;
+}
+.fs-10 {
+  font-size: 0.6rem !important;
+}
+
+.form-control {
+  border-radius: 10px;
+  border-color: var(--bs-secondary);
+}
+
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0.5rem 0.1rem var(--primary-color);
+}
+
+input.bg-dark::placeholder {
+  color: #9e9e9e;
+}

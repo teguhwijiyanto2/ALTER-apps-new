@@ -1,2 +1,1 @@
-# ALTER
- ALTER apps repo
+# alter-apps

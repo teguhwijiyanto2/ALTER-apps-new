@@ -1,0 +1,42 @@
+.dial {
+  background-color: rgba(190, 190, 190, 0.1) !important;
+}
+
+div.drum-wrapper {
+  margin-right: 20px;
+}
+
+#drum_number {
+  width: 100%;
+  height: 150px;
+}
+#drum_number .inner {
+  top: 0px;
+  height: 162.5px;
+}
+#drum_number figure {
+  height: 35px;
+}
+#drum_number .container {
+  top: 57.5px;
+  height: 35px;
+  border-top: 1px solid white;
+  border-bottom: 1px solid white;
+}
+#drum_number figure {
+  text-align: center;
+  font-size: 1.4em;
+  line-height: 1.4em;
+  color: white;
+}
+#drum_number .dial {
+  height: 55px;
+}
+#drum_number .dial div {
+  width: 0px;
+}
+
+div.drum-wrapper .up svg,
+div.drum-wrapper .down svg {
+  left: calc(50% - 20px);
+}
