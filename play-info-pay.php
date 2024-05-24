@@ -42,6 +42,11 @@ foreach ($results_A as $row_A) {
 			  </form>
 */
 
+
+$admin_fee_value = DB::queryFirstField("select value from admin_fee ORDER BY id DESC LIMIT 0,1");
+
+$total_amount = $_POST['clientPrice_1'] + $admin_fee_value;
+
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -412,15 +417,87 @@ foreach ($results_A as $row_A) {
           <!-- Payment Method End -->
 
           <!-- Promo Start -->
-          <!-- <div class="p-3 bg-dark rounded-3 mt-3">
+          <div class="p-3 bg-dark rounded-3 mt-3">
             <h5>Promo</h5>
             <p class="text-secondary">You can add your promo code below</p>
 
             <div class="form__group-input mt-4">
-              <input type="text" name="" placeholder="PromoCodeAlter" />
-              <i class="bi bi-check-circle-fill fs-3 text-success"></i>
+              <input type="text" name="" placeholder="PromoCodeAlter" onkeyup="checkPromoCode(this.value);" />
+              
+				<!--<i class="bi bi-check-circle-fill fs-3 text-success"></i>-->
+                <div id="span_response">&nbsp;</div>
+				<span style="display: none;"><input type="text" id="input_response"></span>					  
+
+				<script>
+				function checkPromoCode(str) {
+				  var xhttp;
+				  if (str.length == 0) { 
+					document.getElementById("txtHint").innerHTML = "";
+					return;
+				  }
+				  xhttp = new XMLHttpRequest();
+				  xhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						document.getElementById("span_response").innerHTML = this.responseText;
+						document.getElementById("input_response").value = this.responseText;						
+			
+					
+						var responseText = this.responseText;
+						var myArray = responseText.split("|");
+
+//alert(responseText);
+//alert(myArray[0]);
+
+						if(myArray[0] == "-") { // echo "-|".$_GET['amount_purchase']."|IDR ".number_format($_GET['amount_purchase'])."";
+							//document.getElementById("divRowDiscount").style.display = "none";
+							document.getElementById("disc_value").innerHTML = "0";
+							document.getElementById("total_payment").innerHTML = myArray[5];
+							
+							//document.getElementById("total_in_cart_value").value = myArray[3];
+							document.getElementById("promo_code").value = myArray[7];
+							document.getElementById("discount").value = myArray[1];
+							document.getElementById("total_amount").value = myArray[2];
+							
+							//alert("aaa " + myArray[3]);		
+						}
+
+						else { // // CEKLIST|1234|2345|3456|IDR 1.234|IDR 2.345|IDR 3.456
+							//document.getElementById("divRowDiscount").style.display = "block";
+							document.getElementById("disc_value").innerHTML = myArray[4];
+							document.getElementById("total_payment").innerHTML = myArray[5];
+							document.getElementById("span_response").innerHTML = myArray[0];							
+							document.getElementById("input_response").value = myArray[0];
+							
+							//document.getElementById("total_in_cart_value").value = myArray[3];
+							document.getElementById("promo_code").value = myArray[7];
+							document.getElementById("discount").value = myArray[1];
+							document.getElementById("total_amount").value = myArray[2];
+							
+							//alert("bbb " + myArray[2]);							
+						} // else {
+														
+					  					  					  
+					}
+				  };
+				  xhttp.open("GET", "checkPromoCode.php?q="+str+"&amount_purchase="+document.getElementById("amount_purchase").value+"&item_type="+document.getElementById("item_type").value+"&sess_usr_id="+document.getElementById("sess_usr_id").value+"", true);
+				  xhttp.send();   
+				}
+				</script>
+				
+				<div style='display: none;'>
+					<input type='text' id='total_in_cart_value' name='total_in_cart_value' value="<?php echo $_POST['clientPrice_1']; ?>">
+					<input type='text' id='promo_code' name='promo_code' value="-">
+					<input type='text' id='discount' name='discount' value="0">
+					<input type='text' id='admin_fee' name='admin_fee' value="<?php echo $admin_fee_value; ?>"> 
+					
+					<input type='text' id='amount_purchase' name='amount_purchase' value="<?php echo $total_amount; ?>">
+					<input type='text' id='amount_purchase_formatted' value="IDR <?php echo number_format($total_amount); ?>">
+					<input type='text' id='item_type' value="<?php echo $_POST['type_1']; ?>">	
+					<input type='text' id='sess_usr_id' value="<?php echo $_SESSION['session_usr_id']; ?>">				
+				</div>
+				
             </div>
-          </div> -->
+          </div>
           <!-- Promo End -->
 
           <!-- Payment Start -->
@@ -432,21 +509,56 @@ foreach ($results_A as $row_A) {
                 class="d-flex flex-row align-items-center justify-content-between text-secondary"
               >
                 <span>Total in Cart</span>
-                <span>IDR <?php echo number_format($_POST['clientPrice_1']); ?></span>
-              </div>
-			  <!--
-              <div
+                <span id="total_in_cart">IDR <?php echo number_format($_POST['clientPrice_1']); ?></span>
+              </div>			  
+			  
+			  
+			  <div id="divRowDiscount" style="display: block;"
                 class="d-flex flex-row align-items-center justify-content-between text-secondary"
               >
-                <span>Other</span>
-                <span>Rp 150.000</span>
+                <span>Discount</span>
+                <span id="disc_value">0</span>
               </div>
-			  -->
+			   
+			  <?php
+			  if($admin_fee_value > 0) {
+				  echo "
+					  <div id='divRowDiscount' style='display: block;'
+						class='d-flex flex-row align-items-center justify-content-between text-secondary'
+					  >
+						<span>Admin Fee</span>
+						<span id='admin_fee'>IDR ".number_format($admin_fee_value)."</span>
+					  </div>
+				  ";				  
+			  }	// if($admin_fee_value > 0) {
+			  ?>
+
+			  <?php
+			  if($_POST['sub_category_1']=="OVO") {
+				  echo "
+				  <div
+					class='d-flex flex-row align-items-center justify-content-between text-secondary'
+				  >
+					<span>Biaya Adm. OVO</span>
+					<span>IDR 1,500 - Dipotong</span>
+				  </div>
+				  ";
+				  echo "
+				  <div
+					class='d-flex flex-row align-items-center justify-content-between text-secondary'
+				  >
+					<span>&nbsp;</span>
+					<span>dari nilai TopUp</span>
+				  </div>
+				  ";				  
+			  }	
+			  ?>
+			  
               <div
                 class="d-flex flex-row align-items-center justify-content-between text-light border-top mt-2 pt-2 border-secondary"
               >
                 <span>Total Payment</span>
-                <span class="fs-5">IDR <?php echo number_format($_POST['clientPrice_1']); ?></span>
+                <span class="fs-5" id="total_payment">IDR <?php echo number_format($total_amount); ?></span>
               </div>
             </div>
           </div>

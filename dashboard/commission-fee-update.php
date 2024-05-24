@@ -375,7 +375,11 @@ $results_1 = DB::queryFirstRow("select * from commission_fee where id=%i", $_GET
 
 									<div class="row">
 									
-										<div class="col-md-6 col-lg-6">									
+										<div class="col-md-6 col-lg-6">		
+											<div class="form-group form-group-default">
+												<label for="disableinput">Category</label>
+												<input type="text" class="form-control" disabled value="<?php echo $results_1['category']; ?>">
+											</div>											
 											<div class="form-group form-group-default">
 												<label for="disableinput">Current Commission Fee (%)</label>
 												<input type="text" class="form-control" disabled value="<?php echo $results_1['value']; ?>">

@@ -8,14 +8,14 @@ require_once 'db.class.2.php';
 /*** Start Processing Submitted Form Above ***/
 if( isset($_POST['payment_options']) && $_POST['payment_options'] != "" ) {
 
-		
+/*	
 			$merchantid = "EP000514";	// Change to your merchant ID
 			$vkey = "c26fbcf925f4d4102908c742f4d0dbe0";	// Change to your verify key
-	
-/*
+*/	
+
 			$merchantid = "EP000270";	// PROD
 			$vkey = "b3a34cb9f6d51812fba0112b282df01a";	// PROD
-*/	
+	
 	
  // Put your own code/process HERE. (Eg: Insert data to DB)
  /*

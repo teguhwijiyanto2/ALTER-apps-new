@@ -28,25 +28,22 @@ foreach ($results_A as $row_A) {
 } // foreach ($results_A as $row_A) {
 //echo $array_users_username[$row_A['id']];
 
-
+$results_tournament = DB::queryFirstRow("SELECT * FROM tournament where id=%i", $_POST['tournament_idx']);
+$results_team = DB::queryFirstRow("SELECT * FROM tournament_teams where team_code=%i", $_POST['team_codex']);
 
 /*
-			  <form action='purchase-item.php' method='POST' id='formPurchase_".$item_no."'>
-				<input type='hidden' name='payeeCode_1' value='".$data_response['payeeCode']."'>
-				<input type='hidden' name='productCode_1' value='".$data_response['productCode']."'>
-				<input type='hidden' name='name_1' value='".$data_response['name']."'>
-				<input type='hidden' name='description_1' value='".$data_response['description']."'>
-				<input type='hidden' name='type_1' value='".$data_response['type']."'>
-				<input type='hidden' name='nominal_1' value='".$data_response['nominal']."'>
-				<input type='hidden' name='clientPrice_1' value='".$data_response['clientPrice']."'>
-			  </form>
+			echo "
+				  <input type='text' name='tournament_idx' value='".$_POST['tournament_idx']."'>
+				  <input type='text' name='tournament_codex' value='".$_POST['tournament_codex']."'>
+				  <input type='text' name='team_codex' value='".$team_code."'>
+				  <input type='text' name='xplayers_per_team' value='".$_POST['xplayers_per_team']."'>
+				  <input type='text' name='xregistration_type' value='".$_POST['xregistration_type']."'>
+				  <input type='text' name='xparticipant_fee' value='".$_POST['xparticipant_fee']."'>
+				  </form>
+				  <body onload=\"document.getElementById('formTournamentRegistrationConfirmation').submit();\">
+				 ";
 */
 
-
-$admin_fee_value = DB::queryFirstField("select value from admin_fee ORDER BY id DESC LIMIT 0,1");
-
-$total_amount = $_POST['clientPrice_1'] + $admin_fee_value;
-			  
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -74,16 +71,16 @@ $total_amount = $_POST['clientPrice_1'] + $admin_fee_value;
     <link rel="stylesheet" type="text/css" href="css/style.css" />
     <link rel="stylesheet" type="text/css" href="css/theme.css" />
     <script src="js/script.js"></script>
-    <title>Purchase Item - Alter</title>
+    <title>Payment - Alter</title>
 	
 
 	<script 
 	src="https://pg-uat.e2pay.co.id/RMS/API/seamless/3.28/js/MOLPay_seamless.deco.js"></script>
-		
+
 	<!--
 	<script 
-	src="https://pg.e2pay.co.id/RMS/API/seamless/3.28/js/MOLPay_seamless.deco.js"></script>	
-	-->	
+	src="https://pg.e2pay.co.id/RMS/API/seamless/3.28/js/MOLPay_seamless.deco.js"></script>
+	-->
 	
 	<script>
 	$(document).ready( function(){		
@@ -120,27 +117,11 @@ $total_amount = $_POST['clientPrice_1'] + $admin_fee_value;
 	
   </head>
 
-
-<!--
-			  <form action='purchase-item.php' method='POST' id='formPurchase_".$row_A2['id']."'>
-				<input type='hidden' name='payeeCode_1' value='".$row_A2['payee_code']."'>
-				<input type='hidden' name='productCode_1' value='".$row_A2['product_code']."'>
-				<input type='hidden' name='name_1' value='".$row_A2['product_name']."'>
-				<input type='hidden' name='description_1' value='".$row_A2['product_description']."'>
-				<input type='hidden' name='type_1' value='".$row_A2['category']."'>
-				<input type='hidden' name='sub_category_1' value='".$row_A2['sub_category']."'>
-				<input type='hidden' name='nominal_1' value='".$row_A2['client_price']."'>
-				<input type='hidden' name='clientPrice_1' value='".$row_A2['client_price']."'>
-			  </form>
--->
-
 <body>
-<form method="POST" action="process_order_purchase_item.php" role="molpayseamless">
-<input type='hidden' name='session_usr_id' value='<?php echo $_SESSION["session_usr_id"]; ?>'>
-
+<form method="POST" action="process_order.php" role="molpayseamless">
 
 <div style="display:none;">
-<span class="cur_span">IDR</span><span class="price_span"> <?php echo $total_amount; ?> </span>
+<span class="cur_span">IDR</span><span class="price_span"> <?php echo $results_tournament['participant_fee']; ?> </span>
 <input type="fname" class="form-control" name="billingFirstName" id="billingFirstName" value="Razer" required>
 <input type="lname" class="form-control" name="billingLastName" id="billingLastName" value="Demo" required>
 <input type="mobile" class="form-control" name="billingMobile" id="billingMobile" value="55218438" required>
@@ -150,19 +131,14 @@ $total_amount = $_POST['clientPrice_1'] + $admin_fee_value;
 <input type="state" class="form-control" name="billingState" id="billingState" value="Shah Alam" required>
 <input type="poscode" class="form-control" name="billingPostcode" id="billingPostcode" value="40000" required>
 
-<input type='hidden' name='payeeCode_1' value='<?php echo $_POST['payeeCode_1']; ?>'>
-<input type='hidden' name='productCode_1' value='<?php echo $_POST['productCode_1']; ?>'>
-<input type='hidden' name='name_1' value='<?php echo $_POST['name_1']; ?>'>
-<input type='hidden' name='description_1' value='<?php echo $_POST['description_1']; ?>'>
-<input type='hidden' name='type_1' value='<?php echo $_POST['type_1']; ?>'>
-<input type='hidden' name='sub_category_1' value='<?php echo $_POST['sub_category_1']; ?>'>
-<input type='hidden' name='nominal_1' value='<?php echo $_POST['nominal_1']; ?>'>
-<input type='hidden' name='clientPrice_1' value='<?php echo $total_amount; ?>'>
-
-<input type="hidden" name="xpayment_method" id="xpayment_method" value="" />
+<input type="hidden" name="tournament_idx" id="tournament_idx" value="<?php echo $_POST['tournament_idx']; ?>" />
+<input type="hidden" name="team_codex" id="team_codex" value="<?php echo $_POST['team_codex']; ?>" />
+<input type="hidden" name="tournament_codex" value="<?php echo $_POST['tournament_codex']; ?>" />
+<input type="text" name="xpayment_method" id="xpayment_method" value="" />
 <input type="hidden" name="currency" id="currency" value="IDR" />
-<input type="text" name="total_amount" id="total_amount" value="<?php echo $total_amount; ?>" />
+<input type="hidden" name="total_amount" value="<?php echo $results_tournament['participant_fee']; ?>" />
 <!--<input type="hidden" name="total_amount" value="10000" />-->
+<input type="hidden" name="session_usr_id" value="<?php echo $_SESSION["session_usr_id"]; ?>" />
 </div>
 
 					
@@ -170,31 +146,12 @@ $total_amount = $_POST['clientPrice_1'] + $admin_fee_value;
     <section>
       <div class="container px-4">
         <div class="py-3">
-          <a href="shophub.php">
+          <a href="tournament.php">
             <i class="bi bi-x-lg fs-5 me-2"></i>
             <span>Payment Page</span>
           </a>
         </div>
         <form action="payment-confirmation.html">
-				
-		<?php 
-		$word_input="";
-		if($_POST['type_1']==3 || $_POST['type_1']==5) { $word_input="Account ID"; }
-		else { $word_input="Phone Number"; }	
-		?>		
-								
-          <!-- Promo Start -->
-          <div class="p-3 bg-dark rounded-3 mt-3">
-            <h5>Input <?php echo $word_input; ?></h5>
-            <p class="text-secondary">Please input <?php echo $_POST['sub_category_1']; ?>'s <?php echo $word_input; ?> for <b><?php echo $_POST['name_1']; ?></b></p>
-
-            <div class="form__group-input mt-4">
-              <input type="text" name="cust_id_parameter" id="cust_id_parameter" placeholder="<?php echo $_POST['sub_category_1']; ?>'s <?php echo $word_input; ?>" required />
-              <i class="bi bi-check-circle-fill fs-3 text-success"></i>
-            </div>
-          </div>
-          <!-- Promo End -->		
-		
           <!-- Payment Method Start -->
           <div class="p-3 bg-dark rounded-3 mt-3">
             <div
@@ -209,7 +166,6 @@ $total_amount = $_POST['clientPrice_1'] + $admin_fee_value;
             </div>
             <div aria-label="Payment Method Card" class="">
 			
-
               <label
                 aria-label="other-pay"
                 class="position-relative d-flex flex-row align-items-center gap-3 py-3 border-bottom border-secondary border-opacity-50 bg-opacity-50"
@@ -330,8 +286,7 @@ $total_amount = $_POST['clientPrice_1'] + $admin_fee_value;
 				<span class="idr">
 				<input type="radio" name="payment_options" id="payment_options_e2Pay_MANDIRI_VA" value="e2Pay_MANDIRI_VA" class="me-4" required/>			  
 				</span>
-			  </label>				  
-			  
+			  </label>		
 			  
               <label
                 aria-label="other-pay"
@@ -350,80 +305,8 @@ $total_amount = $_POST['clientPrice_1'] + $admin_fee_value;
 				<span class="idr">
 				<input type="radio" name="payment_options" id="payment_options_e2Pay_MBayar_QR" value="e2Pay_MBayar_QR" class="me-4" required/>  
 				</span>
-			  </label>			
+			  </label>	
 
-
-			  
-			  <!--					
-              <label
-                aria-label="other-pay"
-                class="position-relative d-flex flex-row align-items-center gap-3 py-3 border-bottom border-secondary border-opacity-50 bg-opacity-50"
-                for="payment_options"
-              >
-                <img
-                  src="assets/icon/ic__pay-ovo.png"
-                  class="rounded-2 ratio-1x1"
-                  height="56"
-                  width="56"
-                />
-                <div class="flex-fill">
-                  <h5 class="mb-0">OVO</h5>
-                </div>
-				<input type="radio" name="payment_options" id="payment_options2" value="e2Pay_OVO" class="me-4" autocomplete="off" required 
-					onclick="document.getElementById('xpayment_method').value = this.value;">
-              </label>	
-			  					
-              <label
-                aria-label="other-pay"
-                class="position-relative d-flex flex-row align-items-center gap-3 py-3 border-bottom border-secondary border-opacity-50 bg-opacity-50"
-                for="payment_options_e2Pay_BCA_VA"
-              >
-                <img
-                  src="assets/icon/ic__pay-bca.png"
-                  class="rounded-2 ratio-1x1"
-                  height="56"
-                  width="56"
-                />
-				<div class="flex-fill">
-					<h5 class="mb-0">BCA (VA)</h5>
-				</div>
-				<input type="radio" name="payment_options" id="payment_options_e2Pay_BCA_VA" value="e2Pay_BCA_VA" class="me-4" required/>			  
-			  </label>			
-              <label
-                aria-label="other-pay"
-                class="position-relative d-flex flex-row align-items-center gap-3 py-3 border-bottom border-secondary border-opacity-50 bg-opacity-50"
-                for="payment_options_e2Pay_SHOPEEPAY_JUMPAPP"
-              >
-                <img
-                  src="assets/icon/ic__pay-bca.png"
-                  class="rounded-2 ratio-1x1"
-                  height="56"
-                  width="56"
-                />
-				<div class="flex-fill">
-					<h5 class="mb-0">SHOPEEPAY (JUMPAPP)</h5>
-				</div>
-				<input type="radio" name="payment_options" id="payment_options_e2Pay_SHOPEEPAY_JUMPAPP" value="e2Pay_SHOPEEPAY_JUMPAPP" class="me-4" required/>			  
-			  </label>				  
-
-              <label
-                aria-label="other-pay"
-                class="position-relative d-flex flex-row align-items-center gap-3 py-3 border-bottom border-secondary border-opacity-50 bg-opacity-50"
-                for="payment_options"
-              >
-                <img
-                  src="assets/icon/ic__pay-linkaja.png"
-                  class="rounded-2 ratio-1x1"
-                  height="56"
-                  width="56"
-                />
-                <div class="flex-fill">
-                  <h5 class="mb-0">LinkAja</h5>
-                </div>
-				<input type="radio" name="payment_options" id="payment_options" value="e2Pay_LINKAJA_WCO" class="me-4" autocomplete="off" required 
-					onclick="document.getElementById('xpayment_method').value = this.value;">
-              </label>			  
-			  -->
 			  
             </div>
           </div>
@@ -435,80 +318,8 @@ $total_amount = $_POST['clientPrice_1'] + $admin_fee_value;
             <p class="text-secondary">You can add your promo code below</p>
 
             <div class="form__group-input mt-4">
-              <input type="text" name="" placeholder="PromoCodeAlter" onkeyup="checkPromoCode(this.value);" />
-              
-				<!--<i class="bi bi-check-circle-fill fs-3 text-success"></i>-->
-                <div id="span_response">&nbsp;</div>
-				<span style="display: none;"><input type="text" id="input_response"></span>					  
-
-				<script>
-				function checkPromoCode(str) {
-				  var xhttp;
-				  if (str.length == 0) { 
-					document.getElementById("txtHint").innerHTML = "";
-					return;
-				  }
-				  xhttp = new XMLHttpRequest();
-				  xhttp.onreadystatechange = function() {
-					if (this.readyState == 4 && this.status == 200) {
-						document.getElementById("span_response").innerHTML = this.responseText;
-						document.getElementById("input_response").value = this.responseText;						
-			
-					
-						var responseText = this.responseText;
-						var myArray = responseText.split("|");
-
-//alert(responseText);
-//alert(myArray[0]);
-
-						if(myArray[0] == "-") { // echo "-|".$_GET['amount_purchase']."|IDR ".number_format($_GET['amount_purchase'])."";
-							//document.getElementById("divRowDiscount").style.display = "none";
-							document.getElementById("disc_value").innerHTML = "0";
-							document.getElementById("total_payment").innerHTML = myArray[5];
-							
-							//document.getElementById("total_in_cart_value").value = myArray[3];
-							document.getElementById("promo_code").value = myArray[7];
-							document.getElementById("discount").value = myArray[1];
-							document.getElementById("total_amount").value = myArray[2];
-							
-							//alert("aaa " + myArray[3]);		
-						}
-
-						else { // // CEKLIST|1234|2345|3456|IDR 1.234|IDR 2.345|IDR 3.456
-							//document.getElementById("divRowDiscount").style.display = "block";
-							document.getElementById("disc_value").innerHTML = myArray[4];
-							document.getElementById("total_payment").innerHTML = myArray[5];
-							document.getElementById("span_response").innerHTML = myArray[0];							
-							document.getElementById("input_response").value = myArray[0];
-							
-							//document.getElementById("total_in_cart_value").value = myArray[3];
-							document.getElementById("promo_code").value = myArray[7];
-							document.getElementById("discount").value = myArray[1];
-							document.getElementById("total_amount").value = myArray[2];
-							
-							//alert("bbb " + myArray[2]);							
-						} // else {
-														
-					  					  					  
-					}
-				  };
-				  xhttp.open("GET", "checkPromoCode.php?q="+str+"&amount_purchase="+document.getElementById("amount_purchase").value+"&item_type="+document.getElementById("item_type").value+"&sess_usr_id="+document.getElementById("sess_usr_id").value+"", true);
-				  xhttp.send();   
-				}
-				</script>
-				
-				<div style='display: none;'>
-					<input type='text' id='total_in_cart_value' name='total_in_cart_value' value="<?php echo $_POST['clientPrice_1']; ?>">
-					<input type='text' id='promo_code' name='promo_code' value="-">
-					<input type='text' id='discount' name='discount' value="0">
-					<input type='text' id='admin_fee' name='admin_fee' value="<?php echo $admin_fee_value; ?>"> 
-					
-					<input type='text' id='amount_purchase' name='amount_purchase' value="<?php echo $total_amount; ?>">
-					<input type='text' id='amount_purchase_formatted' value="IDR <?php echo number_format($total_amount); ?>">
-					<input type='text' id='item_type' value="<?php echo $_POST['type_1']; ?>">	
-					<input type='text' id='sess_usr_id' value="<?php echo $_SESSION['session_usr_id']; ?>">				
-				</div>
-				
+              <input type="text" name="" placeholder="PromoCodeAlter" />
+              <i class="bi bi-check-circle-fill fs-3 text-success"></i>
             </div>
           </div>
           <!-- Promo End -->
@@ -516,62 +327,27 @@ $total_amount = $_POST['clientPrice_1'] + $admin_fee_value;
           <!-- Payment Start -->
           <div class="p-3 bg-dark rounded-3 mt-3">
             <h5>Payment Summary</h5>
-			  
+
             <div class="mt-3">
               <div
                 class="d-flex flex-row align-items-center justify-content-between text-secondary"
               >
                 <span>Total in Cart</span>
-                <span id="total_in_cart">IDR <?php echo number_format($_POST['clientPrice_1']); ?></span>
-              </div>			  
-			  
-			  
-			  <div id="divRowDiscount" style="display: block;"
+                <span>IDR <?php echo number_format($results_tournament['participant_fee']); ?></span>
+              </div>
+			  <!--
+              <div
                 class="d-flex flex-row align-items-center justify-content-between text-secondary"
               >
-                <span>Discount</span>
-                <span id="disc_value">0</span>
+                <span>Other</span>
+                <span>Rp 150.000</span>
               </div>
-			   
-			  <?php
-			  if($admin_fee_value > 0) {
-				  echo "
-					  <div id='divRowDiscount' style='display: block;'
-						class='d-flex flex-row align-items-center justify-content-between text-secondary'
-					  >
-						<span>Admin Fee</span>
-						<span id='admin_fee'>IDR ".number_format($admin_fee_value)."</span>
-					  </div>
-				  ";				  
-			  }	// if($admin_fee_value > 0) {
-			  ?>
-
-			  <?php
-			  if($_POST['sub_category_1']=="OVO") {
-				  echo "
-				  <div
-					class='d-flex flex-row align-items-center justify-content-between text-secondary'
-				  >
-					<span>Biaya Adm. OVO</span>
-					<span>IDR 1,500 - Dipotong</span>
-				  </div>
-				  ";
-				  echo "
-				  <div
-					class='d-flex flex-row align-items-center justify-content-between text-secondary'
-				  >
-					<span>&nbsp;</span>
-					<span>dari nilai TopUp</span>
-				  </div>
-				  ";				  
-			  }	
-			  ?>
-			  
+			  -->
               <div
                 class="d-flex flex-row align-items-center justify-content-between text-light border-top mt-2 pt-2 border-secondary"
               >
                 <span>Total Payment</span>
-                <span class="fs-5" id="total_payment">IDR <?php echo number_format($total_amount); ?></span>
+                <span class="fs-5">IDR <?php echo number_format($results_tournament['participant_fee']); ?></span>
               </div>
             </div>
           </div>
@@ -603,7 +379,7 @@ $total_amount = $_POST['clientPrice_1'] + $admin_fee_value;
         <!-- List Wallet Start -->
         <section>
           <div class="wallet-group mt-4">
-            <h6>Ater Wallet</h6>
+            <h6>Alter Wallet</h6>
             <div class="list-wrapper">
               <div
                 class="d-flex flex-row align-items-center gap-3 border-bottom border-secondary border-opacity-50 py-3"

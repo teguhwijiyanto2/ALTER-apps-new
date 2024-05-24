@@ -346,7 +346,24 @@ require_once 'db.class.php';
 <?php
 	$array_item_category = array("1"=>"Mobile Prepaid", "2"=>"Mobile Data", "3"=>"Top Up Game", "4"=>"E Wallet", "5"=>"Voucher");	
 ?>
-																
+
+<script>
+	function checkDiscMax100(discount_cashback_type) {
+		if(discount_cashback_type=="%") {
+			//alert(discount_cashback_type);
+			document.getElementById('divDiscMaxValue').innerHTML = "Maximum value for this type is 100 !";
+			if((document.getElementById('voucher_value').value * 1) > 100) {
+				alert("Maximum value for % is 100 !");
+				document.getElementById('voucher_value').value = "100";
+				document.getElementById('voucher_value').select();
+			}			
+		} // if(discount_cashback_type=="%") {
+		else {
+			document.getElementById('divDiscMaxValue').innerHTML = "Maximum value for this type is absolute, based on Total Amount";					
+		}
+	} // function checkDiscMax100() {
+</script>
+															
 								<form action="vouchers-generate.php" method="post">
 
 									<div class="row">
@@ -375,14 +392,15 @@ require_once 'db.class.php';
 											</div>
 											<div class="form-group form-group-default">
 												<label for="disableinput">Type</label>
-												<select name="discount_cashback_type" class="form-control" required>
+												<select name="discount_cashback_type" id="discount_cashback_type" class="form-control" required onchange="checkDiscMax100(this.value);">
 													<option value="%"> % </option>
 													<option value="IDR"> IDR </option>
 												</select>
 											</div>
 											<div class="form-group form-group-default">
 												<label for="disableinput">Value</label>
-												<input type="number" name="voucher_value" class="form-control" required value="0">
+												<input type="number" name="voucher_value" id="voucher_value" class="form-control" required value="0" onkeyup="checkDiscMax100(document.getElementById('discount_cashback_type').value);">
+												<div id="divDiscMaxValue" style='color: red; display: block;'>Maximum value for this type is 100 !</div>
 											</div>																						
 											<div class="form-group form-group-default">
 												<label for="disableinput">Date From</label>

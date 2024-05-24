@@ -345,6 +345,24 @@ $results_1 = DB::queryFirstRow("select * from voucher where id=%i", $_GET['idx']
 									<div class="card-title">Voucher :: Edit</div>
 								</div>
 								<div class="card-body">
+								
+<script>
+	function checkDiscMax100(discount_cashback_type) {
+		if(discount_cashback_type=="%") {
+			//alert(discount_cashback_type);
+			document.getElementById('divDiscMaxValue').innerHTML = "Maximum value for this type is 100 !";
+			if((document.getElementById('promo_value').value * 1) > 100) {
+				alert("Maximum value for % is 100 !");
+				document.getElementById('promo_value').value = "100";
+				document.getElementById('promo_value').select();
+			}			
+		} // if(discount_cashback_type=="%") {
+		else {
+			document.getElementById('divDiscMaxValue').innerHTML = "Maximum value for this type is absolute, based on Total Amount";					
+		}
+	} // function checkDiscMax100() {
+</script>
+								
 								<form action="voucher-process.php" method="post">
 								<input type="hidden" name="idx" value="<?php echo $_GET['idx']; ?>">
 

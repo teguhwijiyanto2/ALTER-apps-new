@@ -430,6 +430,7 @@ foreach ($results_A as $row_A) {
 											<thead>
 												<tr>
 													<th>COMMISSION FEE</th>
+													<th style="">Category</th>
 													<th style="width: 5%">Action</th>
 												</tr>
 											</thead>
@@ -444,7 +445,8 @@ foreach ($results_2 as $row_2) {
 	$no++;
 	echo "
 												<tr>
-													<td>".$row_2['value']."&nbsp;%</td>																										
+													<td>".$row_2['category']."</td>
+													<td>".$row_2['value']."&nbsp;%</td>															
 													<td>
 														<div class='form-button-action'>
 															<a href='commission-fee-update.php?idx=".$row_2['id']."' type='button' data-toggle='tooltip' title='Change value' class='btn btn-link btn-primary btn-lg' data-original-title='Change value'>

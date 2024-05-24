@@ -256,19 +256,19 @@ try {
 	  	  
 		<!-- Checker -->
 
-		<div class="p-3 bg-dark rounded-3 mt-5">
+		<div class="p-3 bg-dark rounded-3 mt-5" style="display: none;">
 			<?php echo json_encode(json_decode($encodedData), JSON_PRETTY_PRINT); ?>  
 		</div>
 		
-		<div class="p-3 bg-dark rounded-3 mt-5">
+		<div class="p-3 bg-dark rounded-3 mt-5" style="display: none;">
 			<?php echo $StringToSign; ?>  
 		</div>
 
-		<div class="p-3 bg-dark rounded-3 mt-5">
+		<div class="p-3 bg-dark rounded-3 mt-5" style="display: none;">
 			<?php echo $signature; ?>  
 		</div>
 		
-		<div class="p-3 bg-dark rounded-3 mt-5">
+		<div class="p-3 bg-dark rounded-3 mt-5" style="display: none;">
 			<?php echo json_encode(json_decode($result_prepaidProduct), JSON_PRETTY_PRINT); ?>
 		</div>
 

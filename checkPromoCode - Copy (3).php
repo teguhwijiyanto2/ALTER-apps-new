@@ -31,9 +31,7 @@ $str_return = "";
 
 
 $count = DB::queryFirstField("
-SELECT COUNT(*) FROM promo WHERE promo_code='".$_GET['q']."' AND date_from<=CURDATE() AND date_to>=CURDATE() AND min_purchase<=".$_GET['amount_purchase']." AND num_available>0 AND STATUS='Active'");
-
-//SELECT COUNT(*) FROM promo WHERE promo_code='".$_GET['q']."' AND (item_category=0 OR item_category=".$_GET['item_type'].") AND date_from<=CURDATE() AND date_to>=CURDATE() AND min_purchase<=".$_GET['amount_purchase']." AND num_available>0 AND STATUS='Active'");
+SELECT COUNT(*) FROM promo WHERE promo_code='".$_GET['q']."' AND (item_category=0 OR item_category=".$_GET['item_type'].") AND date_from<=CURDATE() AND date_to>=CURDATE() AND min_purchase<=".$_GET['amount_purchase']." AND num_available>0 AND STATUS='Active'");
 
 //echo $count;
 
@@ -43,9 +41,7 @@ if($count > 0) {
 	//echo $count;
 	
 	$result = DB::queryFirstRow("
-	SELECT * FROM promo WHERE promo_code='".$_GET['q']."' AND date_from<=CURDATE() AND date_to>=CURDATE() AND min_purchase<=".$_GET['amount_purchase']." AND num_available>0 AND STATUS='Active'");
-
-	// SELECT * FROM promo WHERE promo_code='".$_GET['q']."' AND (item_category=0 OR item_category=".$_GET['item_type'].") AND date_from<=CURDATE() AND date_to>=CURDATE() AND min_purchase<=".$_GET['amount_purchase']." AND num_available>0 AND STATUS='Active'");
+	SELECT * FROM promo WHERE promo_code='".$_GET['q']."' AND (item_category=0 OR item_category=".$_GET['item_type'].") AND date_from<=CURDATE() AND date_to>=CURDATE() AND min_purchase<=".$_GET['amount_purchase']." AND num_available>0 AND STATUS='Active'");
 
 	$potongan = $result['promo_value'];
 	
@@ -89,30 +85,20 @@ else {
 
 if($count==0) {
 	
-	$count_2 = DB::queryFirstField("SELECT COUNT(*) FROM voucher_codes WHERE voucher_code='".$_GET['q']."' AND date_from<=CURDATE() AND date_to>=CURDATE() AND min_purchase<=".$_GET['amount_purchase']." AND num_available>0 AND STATUS='Active' AND single_user_id='".$_GET['sess_usr_id']."' AND is_used='No'");
-	
-	// $count_2 = DB::queryFirstField("SELECT COUNT(*) FROM voucher_codes WHERE voucher_code='".$_GET['q']."' AND (item_category=0 OR item_category=".$_GET['item_type'].") AND date_from<=CURDATE() AND date_to>=CURDATE() AND min_purchase<=".$_GET['amount_purchase']." AND num_available>0 AND STATUS='Active' AND single_user_id='".$_GET['sess_usr_id']."' AND is_used='No'");
-		
+	$count_2 = DB::queryFirstField("SELECT COUNT(*) FROM voucher_codes WHERE voucher_code='".$_GET['q']."' AND (item_category=0 OR item_category=".$_GET['item_type'].") AND date_from<=CURDATE() AND date_to>=CURDATE() AND min_purchase<=".$_GET['amount_purchase']." AND num_available>0 AND STATUS='Active' AND single_user_id='".$_GET['sess_usr_id']."' AND is_used='No'");
+				
 	if($count_2 > 0) {
 
 		//echo "<i class='bi bi-check-circle-fill fs-3 text-success'></i>";
 		//echo $count;
 		
-		$result_2 = DB::queryFirstRow("SELECT * FROM voucher_codes WHERE voucher_code='".$_GET['q']."' AND date_from<=CURDATE() AND date_to>=CURDATE() AND min_purchase<=".$_GET['amount_purchase']." AND num_available>0 AND STATUS='Active' AND single_user_id='".$_GET['sess_usr_id']."' AND is_used='No'");
-
-		//$result_2 = DB::queryFirstRow("SELECT * FROM voucher_codes WHERE voucher_code='".$_GET['q']."' AND (item_category=0 OR item_category=".$_GET['item_type'].") AND date_from<=CURDATE() AND date_to>=CURDATE() AND min_purchase<=".$_GET['amount_purchase']." AND num_available>0 AND STATUS='Active' AND single_user_id='".$_GET['sess_usr_id']."' AND is_used='No'");
+		$result_2 = DB::queryFirstRow("SELECT * FROM voucher_codes WHERE voucher_code='".$_GET['q']."' AND (item_category=0 OR item_category=".$_GET['item_type'].") AND date_from<=CURDATE() AND date_to>=CURDATE() AND min_purchase<=".$_GET['amount_purchase']." AND num_available>0 AND STATUS='Active' AND single_user_id='".$_GET['sess_usr_id']."' AND is_used='No'");
 
 		$potongan = $result_2['voucher_value'];
 		if($result_2['discount_cashback_type']=="%") {
 			$potongan = $result_2['voucher_value'] / 100 * $_GET['amount_purchase'];
 		}
 
-		if($result['discount_cashback_type']=="IDR") {
-			if($_GET['amount_purchase'] > $potongan) {
-				$potongan = $_GET['amount_purchase'];
-			}
-		}
-		
 		$total_amount_discounted = $_GET['amount_purchase'] - $potongan;
 
 		// echo "<i class='bi bi-check-circle-fill fs-3 text-success'></i>|".ceil($potongan)."|".ceil($total_amount_discounted)."|".$_GET['amount_purchase']."|IDR ".number_format(ceil($potongan))."|IDR ".number_format(ceil($total_amount_discounted))."|IDR ".number_format($_GET['amount_purchase'])."|".$_GET['q']."";
