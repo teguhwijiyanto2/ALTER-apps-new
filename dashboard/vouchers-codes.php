@@ -475,7 +475,7 @@ foreach ($results_3 as $row_3) {
 <?php
 $no = 0;
 $results_5 = DB::query("
-select id, voucher_code, single_user_id from voucher_codes where uuid=%i order by id asc", $_GET['uuidx']);
+select id, voucher_code, single_user_id from voucher_codes where uuid=%s order by id asc", $_GET['uuidx']);
 foreach ($results_5 as $row_5) {
 	$no++;
 										
